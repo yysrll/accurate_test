@@ -1,6 +1,6 @@
 import 'package:accurate_test/core/domain/model/city_model.dart';
 import 'package:accurate_test/features/city/city_provider.dart';
-import 'package:accurate_test/features/user/widgets/city_list.dart';
+import 'package:accurate_test/features/city/widgets/city_list.dart';
 import 'package:accurate_test/utils/string_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-import 'package:accurate_test/features/user/widgets/location_filter.dart';
+import 'package:accurate_test/features/city/widgets/location_filter.dart';
 import 'package:accurate_test/features/user/widgets/sorting_filter.dart';
 import 'package:flutter/material.dart';
 

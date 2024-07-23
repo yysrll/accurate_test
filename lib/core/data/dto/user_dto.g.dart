@@ -8,11 +8,11 @@ part of 'user_dto.dart';
 
 UserDTO _$UserDTOFromJson(Map<String, dynamic> json) => UserDTO(
       id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      address: json['address'] as String? ?? '',
-      email: json['email'] as String? ?? '',
-      phoneNumber: json['phoneNumber'] as String? ?? '',
-      city: json['city'] as String? ?? '',
+      name: json['name'] as String? ?? 'Unknown',
+      address: json['address'] as String? ?? 'Unknown',
+      email: json['email'] as String? ?? '-',
+      phoneNumber: json['phoneNumber'] as String? ?? '-',
+      city: json['city'] as String? ?? 'Unknown',
     );
 
 Map<String, dynamic> _$UserDTOToJson(UserDTO instance) => <String, dynamic>{

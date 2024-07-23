@@ -1,6 +1,10 @@
 class StringResource {
   static const labelSearch = 'Name';
   static const hintSearch = 'Search by name...';
+  static const hintLocationSearch = 'Search by location...';
+  static const location = 'Location:';
+  static const all = 'All';
+  static const reset = 'Reset';
 
   // Success messages
   static const String successCompleted = 'Request completed successfully.';

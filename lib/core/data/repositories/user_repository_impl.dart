@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:accurate_test/core/data/data_sources/user_remote_data_source.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
 import 'package:accurate_test/core/domain/repositories/user_repository.dart';
@@ -15,12 +13,17 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this._remote);
 
   @override
-  Future<Either<Failure, List<UserModel>>> fetchUsers({String? name}) async {
+  Future<Either<Failure, List<UserModel>>> fetchUsers({
+    String? name,
+    String? city,
+  }) async {
     try {
-      final response = await _remote.fetchUsers(name: name);
+      final response = await _remote.fetchUsers(
+        name: name,
+        city: city,
+      );
       return Right(response.map((user) => user.toModel()).toList());
     } catch (e) {
-      log('errors: $e');
       return Left(ErrorHandler.handler(e).failure);
     }
   }

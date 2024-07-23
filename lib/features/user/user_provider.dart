@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:accurate_test/common/result.dart';
+import 'package:accurate_test/core/domain/model/city_model.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
 import 'package:accurate_test/core/domain/use_case/user_use_case.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,14 @@ class UserProvider extends ChangeNotifier {
 
   Result<List<UserModel>> _state = Result.initial();
   Result<List<UserModel>> get state => _state;
+
+  CityModel? _location;
+  CityModel? get location => _location;
+  set location(CityModel? value) {
+    _location = value;
+    notifyListeners();
+    fetchUsers();
+  }
 
   Timer? _debounceTimer;
 
@@ -41,7 +50,11 @@ class UserProvider extends ChangeNotifier {
   Future<void> fetchUsers() async {
     _state = Result.loading();
     notifyListeners();
-    (await _userUseCase.execute(name)).fold(
+    (await _userUseCase.execute(UserParamUseCase(
+      name: name,
+      city: location?.name,
+    )))
+        .fold(
       (failure) => _state = Result.failed(failure.message),
       (users) {
         _state = Result.success(users);

@@ -2,7 +2,9 @@ import 'package:accurate_test/network/api_client.dart';
 import 'package:accurate_test/utils/constant.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: ApiClient)
 class DioClient implements ApiClient {
   final Dio dio;
 

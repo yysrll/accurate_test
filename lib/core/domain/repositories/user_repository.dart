@@ -3,5 +3,5 @@ import 'package:accurate_test/network/failure/failure.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class UserRepository {
-  Future<Either<Failure, List<UserModel>>> fetchUsers();
+  Future<Either<Failure, List<UserModel>>> fetchUsers({String? name});
 }

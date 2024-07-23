@@ -15,9 +15,9 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this._remote);
 
   @override
-  Future<Either<Failure, List<UserModel>>> fetchUsers() async {
+  Future<Either<Failure, List<UserModel>>> fetchUsers({String? name}) async {
     try {
-      final response = await _remote.fetchUsers();
+      final response = await _remote.fetchUsers(name: name);
       return Right(response.map((user) => user.toModel()).toList());
     } catch (e) {
       log('errors: $e');

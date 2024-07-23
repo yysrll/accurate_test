@@ -3,7 +3,7 @@ import 'package:accurate_test/network/api_client.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class UserRemoteDataSource {
-  Future<List<UserDTO>> fetchUsers();
+  Future<List<UserDTO>> fetchUsers({String? name});
 }
 
 @LazySingleton(as: UserRemoteDataSource)
@@ -13,8 +13,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   UserRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<List<UserDTO>> fetchUsers() async {
-    final List<dynamic> response = await client.get('/user');
+  Future<List<UserDTO>> fetchUsers({String? name}) async {
+    final List<dynamic> response = await client.get(
+      '/user',
+      queryParameters: {
+        'name': name,
+      },
+    );
     return response.map((json) => UserDTO.fromJson(json)).toList();
   }
 }

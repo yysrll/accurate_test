@@ -6,13 +6,13 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable()
-class UserUseCase implements BaseUseCase<Object, List<UserModel>> {
+class UserUseCase implements BaseUseCase<String?, List<UserModel>> {
   final UserRepository _repository;
 
   UserUseCase(this._repository);
 
   @override
-  Future<Either<Failure, List<UserModel>>> execute(Object input) async {
-    return await _repository.fetchUsers();
+  Future<Either<Failure, List<UserModel>>> execute(String? name) async {
+    return await _repository.fetchUsers(name: name);
   }
 }

@@ -1,5 +1,6 @@
 class StringResource {
-  static const hintSearch = 'Search by location...';
+  static const labelSearch = 'Name';
+  static const hintSearch = 'Search by name...';
 
   // Success messages
   static const String successCompleted = 'Request completed successfully.';
@@ -28,8 +29,7 @@ class StringResource {
       'Unauthorized request. Please check your credentials.';
   static const String errorForbidden =
       'Forbidden request. You do not have permission to access this resource.';
-  static const String errorNotFound =
-      'Resource not found. Please check the URL and try again.';
+  static const String errorNotFound = 'Resource not found.';
   static const String errorInternalServerError =
       'Internal server error. Please try again later.';
 

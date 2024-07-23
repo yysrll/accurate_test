@@ -28,9 +28,7 @@ class UserItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  'https://ui-avatars.com/api/?name=${user.name}',
-                ),
+                child: Image.network(user.avatar()),
               ),
               const SizedBox(width: 12),
               Expanded(

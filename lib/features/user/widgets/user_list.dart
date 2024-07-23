@@ -1,28 +1,55 @@
+import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
+import 'package:accurate_test/features/user/user_provider.dart';
 import 'package:accurate_test/features/user/widgets/user_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserList extends StatelessWidget {
-  final List<UserModel> users;
-
   const UserList({
     super.key,
-    required this.users,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (users.isEmpty) {
-      return emptyWidget(context);
-    }
-    return ListView.separated(
-      itemCount: users.length,
-      separatorBuilder: (context, index) {
-        return const SizedBox(height: 12);
-      },
-      itemBuilder: (context, index) {
-        final user = users[index];
-        return UserItem(user: user);
+    return Consumer<UserProvider>(
+      builder: (context, provider, _) {
+        if (provider.state is Initial) {
+          return const SizedBox();
+        }
+
+        if (provider.state is Loading) {
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        }
+
+        if (provider.state is Failed) {
+          return errorWidget(
+            context,
+            (provider.state as Failed).message,
+          );
+        }
+
+        final List<UserModel> users = (provider.state as Success).data;
+        if (users.isEmpty) {
+          return emptyWidget(context);
+        }
+        return RefreshIndicator.adaptive(
+          onRefresh: () async {
+            await provider.fetchUsers();
+          },
+          child: ListView.separated(
+            itemCount: users.length,
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 12);
+            },
+            itemBuilder: (context, index) {
+              final user = users[index];
+              return UserItem(user: user);
+            },
+          ),
+        );
       },
     );
   }
@@ -41,6 +68,26 @@ class UserList extends StatelessWidget {
         ),
         Text(
           'Data not found',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ],
+    );
+  }
+
+  Widget errorWidget(BuildContext context, String message) {
+    return Column(
+      children: [
+        const SizedBox(height: 32),
+        const Icon(
+          Icons.warning_amber_rounded,
+          size: 100,
+        ),
+        Text(
+          'Opps',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        Text(
+          message,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],

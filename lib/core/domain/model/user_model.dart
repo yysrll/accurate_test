@@ -14,4 +14,20 @@ class UserModel {
     required this.phoneNumber,
     required this.city,
   });
+
+  String avatar() {
+    late String params;
+    String name = this.name;
+    String address = this.address;
+
+    if (name.trim().isEmpty) {
+      name = 'Unknown';
+    }
+    if (address.trim().isEmpty) {
+      address = 'Unknown';
+    }
+
+    params = '$name $address';
+    return 'https://ui-avatars.com/api/?name=$params';
+  }
 }

@@ -4,6 +4,7 @@ import 'package:accurate_test/features/user/user_provider.dart';
 import 'package:accurate_test/features/user/widgets/user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class UserList extends StatelessWidget {
   const UserList({
@@ -19,9 +20,7 @@ class UserList extends StatelessWidget {
         }
 
         if (provider.state is Loading) {
-          return const Center(
-            child: CircularProgressIndicator.adaptive(),
-          );
+          return loadingListWidget();
         }
 
         if (provider.state is Failed) {
@@ -91,6 +90,26 @@ class UserList extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
+    );
+  }
+
+  Widget loadingListWidget() {
+    return ListView.separated(
+      itemCount: 8,
+      separatorBuilder: (context, index) {
+        return const SizedBox(height: 12);
+      },
+      itemBuilder: (context, index) {
+        final user = UserModel(
+          id: 'id',
+          name: 'dummy name',
+          address: 'dummy for address',
+          email: 'dummy@email.com',
+          phoneNumber: '08123567',
+          city: 'dummy city',
+        );
+        return Skeletonizer(child: UserItem(user: user));
+      },
     );
   }
 }

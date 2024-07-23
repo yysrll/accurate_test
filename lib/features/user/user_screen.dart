@@ -1,5 +1,6 @@
 import 'package:accurate_test/di/service_locator.dart';
 import 'package:accurate_test/features/user/user_provider.dart';
+import 'package:accurate_test/features/user/widgets/greeting.dart';
 import 'package:accurate_test/features/user/widgets/search_field.dart';
 import 'package:accurate_test/features/user/widgets/user_filter.dart';
 import 'package:accurate_test/features/user/widgets/user_list.dart';
@@ -20,7 +21,9 @@ class UserScreen extends StatelessWidget {
           child: ChangeNotifierProvider(
             create: (_) => UserProvider(getIt()),
             child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Greeting(),
                 SearchField(),
                 UserFilter(),
                 SizedBox(height: 20),

@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/core/domain/model/city_model.dart';
-import 'package:accurate_test/features/city/city_provider.dart';
+import 'package:accurate_test/features/city/bloc/city_bloc.dart';
+import 'package:accurate_test/utils/string_resource.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CityList extends StatelessWidget {
@@ -16,24 +16,24 @@ class CityList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CityProvider>(
-      builder: (context, provider, _) {
-        if (provider.state is Initial) {
+    return BlocBuilder<CityBloc, CityState>(
+      builder: (context, state) {
+        if (state.status.isInitial) {
           return const SizedBox();
         }
 
-        if (provider.state is Loading) {
+        if (state.status.isLoading) {
           return loadingListWidget();
         }
 
-        if (provider.state is Failed) {
+        if (state.status.isFailure) {
           return errorWidget(
             context,
-            (provider.state as Failed).message,
+            state.message ?? StringResource.errorDefault,
           );
         }
 
-        final List<CityModel> cities = (provider.state as Success).data;
+        final List<CityModel> cities = state.cities;
         if (cities.isEmpty) {
           return emptyWidget(context);
         }

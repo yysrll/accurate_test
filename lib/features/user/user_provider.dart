@@ -4,18 +4,20 @@ import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/core/domain/model/city_model.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
 import 'package:accurate_test/core/domain/use_case/user_use_case.dart';
+import 'package:accurate_test/features/user/utils/debounce.dart';
+import 'package:accurate_test/features/user/utils/user_sorter.dart';
 import 'package:flutter/material.dart';
-
-enum Sorting {
-  asc,
-  desc,
-  none,
-}
 
 class UserProvider extends ChangeNotifier {
   final UserUseCase _userUseCase;
+  final UserSorter _userSorter;
+  final Debounce _debounce;
 
-  UserProvider(this._userUseCase) {
+  UserProvider(
+    this._userUseCase,
+    this._userSorter,
+    this._debounce,
+  ) {
     fetchUsers();
   }
 
@@ -30,19 +32,12 @@ class UserProvider extends ChangeNotifier {
     fetchUsers();
   }
 
-  Timer? _debounceTimer;
-
   String? _name;
   String? get name => _name;
   set name(String? value) {
     _name = value;
     notifyListeners();
-    fetchWithDebounce();
-  }
-
-  void fetchWithDebounce() {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+    _debounce(() {
       fetchUsers();
     });
   }
@@ -57,8 +52,8 @@ class UserProvider extends ChangeNotifier {
         .fold(
       (failure) => _state = Result.failed(failure.message),
       (users) {
-        _state = Result.success(users);
-        sortUsers();
+        final sortedUsers = _userSorter.sort(users, _sorting);
+        _state = Result.success(sortedUsers);
       },
     );
     notifyListeners();
@@ -73,19 +68,11 @@ class UserProvider extends ChangeNotifier {
   }
 
   void sortUsers() {
-    if (_sorting == Sorting.none) return;
-    final List<UserModel> users = (_state as Success).data;
-    if (_sorting == Sorting.asc) {
-      _state = Result.success(users
-        ..sort(
-          (a, b) => a.name.compareTo(b.name),
-        ));
-    }
-    if (_sorting == Sorting.desc) {
-      _state = Result.success(users
-        ..sort(
-          (a, b) => b.name.compareTo(a.name),
-        ));
+    if (_state is Success<List<UserModel>>) {
+      final users = (_state as Success<List<UserModel>>).data;
+      final sortedUsers = _userSorter.sort(users, _sorting);
+      _state = Result.success(sortedUsers);
+      notifyListeners();
     }
   }
 }

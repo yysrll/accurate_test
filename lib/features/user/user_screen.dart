@@ -20,7 +20,7 @@ class UserScreen extends StatelessWidget {
               horizontal: 20,
             ),
             child: ChangeNotifierProvider(
-              create: (_) => UserProvider(getIt()),
+              create: (_) => UserProvider(getIt(), getIt(), getIt()),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

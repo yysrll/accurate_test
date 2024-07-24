@@ -1,13 +1,12 @@
-import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/component/custom_text_field.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
 import 'package:accurate_test/di/service_locator.dart';
+import 'package:accurate_test/features/user/bloc/create_user/create_user_bloc.dart';
 import 'package:accurate_test/features/user/bloc/user_bloc.dart';
-import 'package:accurate_test/features/user/create_user_provider.dart';
 import 'package:accurate_test/utils/string_extension.dart';
 import 'package:accurate_test/utils/string_resource.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateUserButton extends StatelessWidget {
   const CreateUserButton({super.key});
@@ -160,36 +159,51 @@ class _CreateUserBottomSheetState extends State<CreateUserBottomSheet> {
   }
 
   Widget createButton(void Function(UserModel) onCreated) {
-    return ChangeNotifierProvider(
-      create: (_) => CreateUserProvider(getIt()),
-      child: Consumer<CreateUserProvider>(
+    return BlocProvider(
+      create: (_) => CreateUserBloc(getIt()),
+      child: BlocConsumer<CreateUserBloc, CreateUserState>(
+        listener: (context, state) {
+          if (state is CreateUserSuccess) {
+            onCreated(state.user);
+            Navigator.pop(context);
+          }
+        },
+        listenWhen: (previous, current) {
+          return previous is CreateUserSuccess && previous != current;
+        },
         builder: (
           context,
-          provider,
-          _,
+          state,
         ) {
-          if (provider.state is Loading) {
+          if (state is CreateUserLoading) {
             return const Center(child: CircularProgressIndicator.adaptive());
           }
-          return FilledButton(
-            onPressed: () async {
-              if (!_formKey.currentState!.validate()) {
-                return;
-              }
-              await provider.createUser(UserModel(
-                id: '',
-                name: _nameController.text.trim(),
-                address: _addressController.text.trim(),
-                email: _emailController.text.trim(),
-                phoneNumber: _phoneController.text.trim(),
-                city: _cityController.text.trim(),
-              ));
-              if (provider.state is Success) {
-                onCreated((provider.state as Success).data);
-              }
-              Navigator.pop(context);
-            },
-            child: const Text('Create'),
+          return Column(
+            children: [
+              if (state is CreateUserError)
+                Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              const SizedBox(height: 16),
+              FilledButton(
+                onPressed: () async {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+                  final user = UserModel(
+                    id: '',
+                    name: _nameController.text.trim(),
+                    address: _addressController.text.trim(),
+                    email: _emailController.text.trim(),
+                    phoneNumber: _phoneController.text.trim(),
+                    city: _cityController.text.trim(),
+                  );
+                  context.read<CreateUserBloc>().add(CreatedUser(user));
+                },
+                child: const Text('Create'),
+              ),
+            ],
           );
         },
       ),

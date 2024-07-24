@@ -33,7 +33,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       name: event.param?.name,
       city: event.param?.city,
     ));
-    final result = await _userUseCase.execute(event.param);
+    final result = await _userUseCase.execute(UserParamUseCase(
+      name: state.name,
+      city: state.city,
+    ));
     result.fold(
       (failure) => emit(
         state.copyWith(

@@ -170,7 +170,7 @@ class _CreateUserBottomSheetState extends State<CreateUserBottomSheet> {
           }
         },
         listenWhen: (previous, current) {
-          return previous is CreateUserSuccess && previous != current;
+          return current is CreateUserSuccess && previous != current;
         },
         builder: (
           context,

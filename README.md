@@ -51,18 +51,23 @@ flutter run
 Here's a brief overview of how to use the app:
 #### Viewing Users
 When you open the app, you'll see a list of users. You can scroll through the list to view all users.
+<video src='https://github.com/user-attachments/assets/82430d85-df72-40ba-9e46-fd555766993b'></video>
 
 #### Searching for a User
 Use the search bar at the top to find a specific user by name. The list will filter as you type.
+<video src='https://github.com/user-attachments/assets/55657440-6de0-494c-92f2-3d88b57484fe'></video>
 
 #### Sorting Users
 You can sort the users by name. Tap on the sort button to toggle between ascending and descending order.
+<video src='https://github.com/user-attachments/assets/257e80f2-b995-4cf5-bbcf-fedf3967f0a0'></video>
 
 #### Filtering Users by City
 Use the filter option to narrow down the users based on their city.
+<video src='https://github.com/user-attachments/assets/f9df0b12-f690-425b-9be0-28289b8d4017'></video>
 
 #### Adding a New User
-Click on the "Add User" button and fill in the necessary details to add a new user to the list.
+Click on the "Add Icon Button" and fill in the necessary details to add a new user to the list.
+<video src='https://github.com/user-attachments/assets/491ab1c2-bd6a-4ebc-9f70-88a8a7907b9a'></video>
 
 ### Why a Simple and Clean UI with One Screen for All Features
 The decision to build a simple and clean UI with one screen for all features was guided by several key principles:

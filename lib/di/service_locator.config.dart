@@ -21,9 +21,9 @@ import '../core/domain/repositories/user_repository.dart' as _i11;
 import '../core/domain/use_case/city_use_case.dart' as _i17;
 import '../core/domain/use_case/create_user_use_case.dart' as _i14;
 import '../core/domain/use_case/user_use_case.dart' as _i13;
-import '../features/city/utils/city_filter.dart' as _i6;
-import '../features/user/utils/debounce.dart' as _i5;
-import '../features/user/utils/user_sorter.dart' as _i4;
+import '../features/city/utils/city_filter.dart' as _i4;
+import '../features/user/utils/debounce.dart' as _i6;
+import '../features/user/utils/user_sorter.dart' as _i5;
 import '../network/api_client.dart' as _i7;
 import '../network/dio_client.dart' as _i8;
 import 'register_module.dart' as _i18;
@@ -41,9 +41,9 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final registerModule = _$RegisterModule();
     gh.factory<_i3.Dio>(() => registerModule.dio);
-    gh.factory<_i4.UserSorter>(() => _i4.UserSorter());
-    gh.factory<_i5.Debounce>(() => _i5.Debounce());
-    gh.factory<_i6.CityFilter>(() => _i6.CityFilter());
+    gh.factory<_i4.CityFilter>(() => _i4.CityFilter());
+    gh.factory<_i5.UserSorter>(() => _i5.UserSorter());
+    gh.factory<_i6.Debounce>(() => _i6.Debounce());
     gh.lazySingleton<_i7.ApiClient>(() => _i8.DioClient(dio: gh<_i3.Dio>()));
     gh.lazySingleton<_i9.CityRemoteDataSource>(
         () => _i9.CityRemoteDataSourceImpl(client: gh<_i7.ApiClient>()));

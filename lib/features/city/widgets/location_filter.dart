@@ -1,12 +1,11 @@
 import 'package:accurate_test/core/domain/use_case/user_use_case.dart';
 import 'package:accurate_test/di/service_locator.dart';
-import 'package:accurate_test/features/city/city_provider.dart';
+import 'package:accurate_test/features/city/bloc/city_bloc.dart';
 import 'package:accurate_test/features/user/bloc/user_bloc.dart';
 import 'package:accurate_test/features/city/widgets/city_modal_botttomsheet.dart';
 import 'package:accurate_test/utils/string_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class LocationFilter extends StatelessWidget {
   const LocationFilter({super.key});
@@ -22,8 +21,11 @@ class LocationFilter extends StatelessWidget {
             builder: (context) {
               return FractionallySizedBox(
                 heightFactor: 0.8,
-                child: ChangeNotifierProvider(
-                  create: (context) => CityProvider(getIt(), getIt()),
+                child: BlocProvider(
+                  create: (context) => CityBloc(getIt(), getIt())
+                    ..add(
+                      const CityFetched(),
+                    ),
                   child: CityModalBottomSheet(
                     onSelectedCity: (city) {
                       ctx.read<UserBloc>().add(

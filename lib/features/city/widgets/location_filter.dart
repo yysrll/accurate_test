@@ -4,6 +4,7 @@ import 'package:accurate_test/features/city/bloc/city_bloc.dart';
 import 'package:accurate_test/features/user/bloc/user_bloc.dart';
 import 'package:accurate_test/features/city/widgets/city_modal_botttomsheet.dart';
 import 'package:accurate_test/utils/string_resource.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,7 @@ class LocationFilter extends StatelessWidget {
                               param: UserParamUseCase(city: city.name),
                             ),
                           );
-                      Navigator.pop(context);
+                      context.router.maybePop();
                     },
                     onReset: () {
                       ctx.read<UserBloc>().add(
@@ -41,7 +42,7 @@ class LocationFilter extends StatelessWidget {
                               param: UserParamUseCase(city: ''),
                             ),
                           );
-                      Navigator.pop(context);
+                      context.router.maybePop();
                     },
                   ),
                 ),

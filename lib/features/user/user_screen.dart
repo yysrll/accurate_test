@@ -5,9 +5,11 @@ import 'package:accurate_test/features/user/widgets/greeting.dart';
 import 'package:accurate_test/features/user/widgets/search_user_field.dart';
 import 'package:accurate_test/features/user/widgets/user_filter.dart';
 import 'package:accurate_test/features/user/widgets/user_list.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+@RoutePage()
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
 
@@ -20,8 +22,11 @@ class UserScreen extends StatelessWidget {
               horizontal: 20,
             ),
             child: BlocProvider(
-              create: (context) =>
-                  UserBloc(getIt(), getIt(), getIt())..add(const UserFetched()),
+              create: (context) => UserBloc(
+                getIt(),
+                getIt(),
+                getIt(),
+              )..add(const UserFetched()),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

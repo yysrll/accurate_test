@@ -1,12 +1,7 @@
-class UserModel {
-  final String id;
-  final String name;
-  final String address;
-  final String email;
-  final String phoneNumber;
-  final String city;
+import 'package:equatable/equatable.dart';
 
-  UserModel({
+class UserModel extends Equatable {
+  const UserModel({
     required this.id,
     required this.name,
     required this.address,
@@ -14,6 +9,13 @@ class UserModel {
     required this.phoneNumber,
     required this.city,
   });
+
+  final String id;
+  final String name;
+  final String address;
+  final String email;
+  final String phoneNumber;
+  final String city;
 
   String avatar() {
     late String params;
@@ -30,4 +32,7 @@ class UserModel {
     params = '$name $address';
     return 'https://ui-avatars.com/api/?name=$params';
   }
+
+  @override
+  List<Object?> get props => [id, name, address, email, phoneNumber, city];
 }

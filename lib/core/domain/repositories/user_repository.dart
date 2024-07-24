@@ -7,4 +7,8 @@ abstract class UserRepository {
     String? name,
     String? city,
   });
+
+  Future<Either<Failure, UserModel>> createUser({
+    required UserModel user,
+  });
 }

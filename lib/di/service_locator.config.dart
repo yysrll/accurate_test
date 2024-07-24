@@ -14,15 +14,16 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../core/data/data_sources/city_remote_data_source.dart' as _i6;
 import '../core/data/data_sources/user_remote_data_source.dart' as _i7;
-import '../core/data/repositories/city_repository_impl.dart' as _i12;
+import '../core/data/repositories/city_repository_impl.dart' as _i13;
 import '../core/data/repositories/user_repository_impl.dart' as _i9;
-import '../core/domain/repositories/city_repository.dart' as _i11;
+import '../core/domain/repositories/city_repository.dart' as _i12;
 import '../core/domain/repositories/user_repository.dart' as _i8;
-import '../core/domain/use_case/city_use_case.dart' as _i13;
+import '../core/domain/use_case/city_use_case.dart' as _i14;
+import '../core/domain/use_case/create_user_use_case.dart' as _i11;
 import '../core/domain/use_case/user_use_case.dart' as _i10;
 import '../network/api_client.dart' as _i4;
 import '../network/dio_client.dart' as _i5;
-import 'register_module.dart' as _i14;
+import 'register_module.dart' as _i15;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -46,12 +47,14 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i9.UserRepositoryImpl(gh<_i7.UserRemoteDataSource>()));
     gh.factory<_i10.UserUseCase>(
         () => _i10.UserUseCase(gh<_i8.UserRepository>()));
-    gh.lazySingleton<_i11.CityRepository>(
-        () => _i12.CityRepositoryImpl(gh<_i6.CityRemoteDataSource>()));
-    gh.factory<_i13.CityUseCase>(
-        () => _i13.CityUseCase(gh<_i11.CityRepository>()));
+    gh.factory<_i11.CreateUserUseCase>(
+        () => _i11.CreateUserUseCase(gh<_i8.UserRepository>()));
+    gh.lazySingleton<_i12.CityRepository>(
+        () => _i13.CityRepositoryImpl(gh<_i6.CityRemoteDataSource>()));
+    gh.factory<_i14.CityUseCase>(
+        () => _i14.CityUseCase(gh<_i12.CityRepository>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i14.RegisterModule {}
+class _$RegisterModule extends _i15.RegisterModule {}

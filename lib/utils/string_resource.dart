@@ -1,10 +1,20 @@
 class StringResource {
-  static const labelSearch = 'Name';
   static const hintSearch = 'Search by name...';
   static const hintLocationSearch = 'Search by location...';
   static const location = 'Location:';
   static const all = 'All';
   static const reset = 'Reset';
+  static const labelName = 'Name';
+  static const labelAddress = 'Address';
+  static const labelPhone = 'Phone Number';
+  static const labelEmail = 'Email';
+  static const labelCity = 'City';
+
+  // validator
+  static const cantBeEmpty = 'This field cant be empty';
+  static const invalidEmail = 'Please input a valid email';
+  static const invalidPhone =
+      'Please input a valid phone number, start with 08';
 
   // Success messages
   static const String successCompleted = 'Request completed successfully.';

@@ -22,7 +22,7 @@ class LocationFilter extends StatelessWidget {
             return FractionallySizedBox(
               heightFactor: 0.8,
               child: ChangeNotifierProvider(
-                create: (context) => CityProvider(getIt()),
+                create: (context) => CityProvider(getIt(), getIt()),
                 child: CityModalBottomSheet(
                   onSelectedCity: (city) {
                     userProvider.location = city;

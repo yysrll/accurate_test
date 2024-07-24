@@ -3,12 +3,14 @@ import 'dart:ffi';
 import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/core/domain/model/city_model.dart';
 import 'package:accurate_test/core/domain/use_case/city_use_case.dart';
+import 'package:accurate_test/features/city/utils/city_filter.dart';
 import 'package:flutter/material.dart';
 
 class CityProvider extends ChangeNotifier {
   final CityUseCase _cityUseCase;
+  final CityFilter _cityFilter;
 
-  CityProvider(this._cityUseCase) {
+  CityProvider(this._cityUseCase, this._cityFilter) {
     fetchCities();
   }
 
@@ -23,14 +25,7 @@ class CityProvider extends ChangeNotifier {
     if (_city?.isEmpty ?? true) {
       _state = Result.success(_temp);
     } else {
-      _state = Result.success(
-        _temp
-            .where(
-              (element) =>
-                  element.name.toLowerCase().contains(_city!.toLowerCase()),
-            )
-            .toList(),
-      );
+      _state = Result.success(_cityFilter.filter(_temp, _city));
     }
     notifyListeners();
   }

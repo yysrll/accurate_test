@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? initialValue;
   final String? hintText;
@@ -21,14 +21,28 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  final _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      initialValue: initialValue,
+      controller: widget.controller,
+      initialValue: widget.initialValue,
+      focusNode: _focusNode,
       decoration: InputDecoration(
-        label: label,
-        hintText: hintText,
-        prefixIcon: prefixIcon,
+        label: widget.label,
+        hintText: widget.hintText,
+        prefixIcon: widget.prefixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
@@ -37,10 +51,10 @@ class CustomTextField extends StatelessWidget {
         ),
       ),
       onTapOutside: (event) {
-        FocusScope.of(context).unfocus();
+        _focusNode.unfocus();
       },
-      validator: validator,
-      onChanged: onChanged,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
     );
   }
 }

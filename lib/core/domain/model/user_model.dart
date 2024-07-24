@@ -33,6 +33,17 @@ class UserModel extends Equatable {
     return 'https://ui-avatars.com/api/?name=$params';
   }
 
+  factory UserModel.dummy() {
+    return const UserModel(
+      id: 'id',
+      name: 'dummy name',
+      address: 'dummy for address',
+      email: 'dummy@email.com',
+      phoneNumber: '08123567',
+      city: 'dummy city',
+    );
+  }
+
   @override
   List<Object?> get props => [id, name, address, email, phoneNumber, city];
 }

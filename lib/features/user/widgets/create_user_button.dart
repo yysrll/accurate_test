@@ -2,8 +2,8 @@ import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/component/custom_text_field.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
 import 'package:accurate_test/di/service_locator.dart';
+import 'package:accurate_test/features/user/bloc/user_bloc.dart';
 import 'package:accurate_test/features/user/create_user_provider.dart';
-import 'package:accurate_test/features/user/user_provider.dart';
 import 'package:accurate_test/utils/string_extension.dart';
 import 'package:accurate_test/utils/string_resource.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class CreateUserButton extends StatelessWidget {
     return IconButton(
       onPressed: () {
         showCreateUserBottomSheet(context, onCreated: (user) {
-          context.read<UserProvider>().fetchUsers();
+          context.read<UserBloc>().add(UserCreated(user));
         });
       },
       icon: const Icon(

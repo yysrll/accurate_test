@@ -1,9 +1,9 @@
-import 'package:accurate_test/common/result.dart';
 import 'package:accurate_test/core/domain/model/user_model.dart';
-import 'package:accurate_test/features/user/user_provider.dart';
+import 'package:accurate_test/features/user/bloc/user_bloc.dart';
 import 'package:accurate_test/features/user/widgets/user_item.dart';
+import 'package:accurate_test/utils/string_resource.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class UserList extends StatelessWidget {
@@ -13,30 +13,30 @@ class UserList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, provider, _) {
-        if (provider.state is Initial) {
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state.status.isInitial) {
           return const SizedBox();
         }
 
-        if (provider.state is Loading) {
+        if (state.status.isLoading) {
           return loadingListWidget();
         }
 
-        if (provider.state is Failed) {
+        if (state.status.isFailure) {
           return errorWidget(
             context,
-            (provider.state as Failed).message,
+            state.message ?? StringResource.errorDefault,
           );
         }
 
-        final List<UserModel> users = (provider.state as Success).data;
+        final List<UserModel> users = state.users;
         if (users.isEmpty) {
           return emptyWidget(context);
         }
         return RefreshIndicator.adaptive(
           onRefresh: () async {
-            await provider.fetchUsers();
+            context.read<UserBloc>().add(const UserFetched());
           },
           child: ListView.separated(
             itemCount: users.length,
@@ -74,22 +74,24 @@ class UserList extends StatelessWidget {
   }
 
   Widget errorWidget(BuildContext context, String message) {
-    return Column(
-      children: [
-        const SizedBox(height: 32),
-        const Icon(
-          Icons.warning_amber_rounded,
-          size: 100,
-        ),
-        Text(
-          'Opps',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        Text(
-          message,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-      ],
+    return Center(
+      child: Column(
+        children: [
+          const SizedBox(height: 32),
+          const Icon(
+            Icons.warning_amber_rounded,
+            size: 100,
+          ),
+          Text(
+            'Opps',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          Text(
+            message,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
+      ),
     );
   }
 
@@ -100,15 +102,9 @@ class UserList extends StatelessWidget {
         return const SizedBox(height: 12);
       },
       itemBuilder: (context, index) {
-        final user = UserModel(
-          id: 'id',
-          name: 'dummy name',
-          address: 'dummy for address',
-          email: 'dummy@email.com',
-          phoneNumber: '08123567',
-          city: 'dummy city',
+        return Skeletonizer(
+          child: UserItem(user: UserModel.dummy()),
         );
-        return Skeletonizer(child: UserItem(user: user));
       },
     );
   }

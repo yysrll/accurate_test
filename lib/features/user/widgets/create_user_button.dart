@@ -34,6 +34,7 @@ class CreateUserButton extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       builder: (context) {
         return CreateUserBottomSheet(onCreated: onCreated);
       },
@@ -74,86 +75,88 @@ class _CreateUserBottomSheetState extends State<CreateUserBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 32,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 32,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomTextField(
-              controller: _nameController,
-              label: const Text(StringResource.labelName),
-              prefixIcon: const Icon(Icons.person),
-              validator: (name) {
-                if (name == null || name.isEmpty) {
-                  return StringResource.cantBeEmpty;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: _addressController,
-              label: const Text(StringResource.labelAddress),
-              prefixIcon: const Icon(Icons.location_on),
-              validator: (address) {
-                if (address == null || address.isEmpty) {
-                  return StringResource.cantBeEmpty;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: _emailController,
-              label: const Text(StringResource.labelEmail),
-              prefixIcon: const Icon(Icons.email),
-              validator: (email) {
-                if (email == null || email.isEmpty) {
-                  return StringResource.cantBeEmpty;
-                }
-                if (!email.isValidEmail()) {
-                  return StringResource.invalidEmail;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: _phoneController,
-              label: const Text(StringResource.labelPhone),
-              prefixIcon: const Icon(Icons.phone),
-              validator: (phone) {
-                if (phone == null || phone.isEmpty) {
-                  return StringResource.cantBeEmpty;
-                }
-                if (!phone.isValidPhoneNumber()) {
-                  return StringResource.invalidPhone;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: _cityController,
-              label: const Text(StringResource.labelCity),
-              prefixIcon: const Icon(Icons.location_city),
-              validator: (city) {
-                if (city == null || city.isEmpty) {
-                  return StringResource.cantBeEmpty;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 24),
-            createButton(widget.onCreated),
-          ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 32,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 32,
+        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomTextField(
+                controller: _nameController,
+                label: const Text(StringResource.labelName),
+                prefixIcon: const Icon(Icons.person),
+                validator: (name) {
+                  if (name == null || name.isEmpty) {
+                    return StringResource.cantBeEmpty;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: _addressController,
+                label: const Text(StringResource.labelAddress),
+                prefixIcon: const Icon(Icons.location_on),
+                validator: (address) {
+                  if (address == null || address.isEmpty) {
+                    return StringResource.cantBeEmpty;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: _emailController,
+                label: const Text(StringResource.labelEmail),
+                prefixIcon: const Icon(Icons.email),
+                validator: (email) {
+                  if (email == null || email.isEmpty) {
+                    return StringResource.cantBeEmpty;
+                  }
+                  if (!email.isValidEmail()) {
+                    return StringResource.invalidEmail;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: _phoneController,
+                label: const Text(StringResource.labelPhone),
+                prefixIcon: const Icon(Icons.phone),
+                validator: (phone) {
+                  if (phone == null || phone.isEmpty) {
+                    return StringResource.cantBeEmpty;
+                  }
+                  if (!phone.isValidPhoneNumber()) {
+                    return StringResource.invalidPhone;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: _cityController,
+                label: const Text(StringResource.labelCity),
+                prefixIcon: const Icon(Icons.location_city),
+                validator: (city) {
+                  if (city == null || city.isEmpty) {
+                    return StringResource.cantBeEmpty;
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 24),
+              createButton(widget.onCreated),
+            ],
+          ),
         ),
       ),
     );
